@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/orange500"
@@ -30,6 +31,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/addFood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -38,18 +40,27 @@
         </FrameLayout>
 
         <EditText
-            android:layout_marginTop="6dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:background="@drawable/circle_background_white"
             android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:drawablePadding="8dp"
             android:hint="Find food..."
+            android:maxLines="1"
             android:paddingHorizontal="8dp"
             android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:maxLines="1"
-            android:drawablePadding="8dp"/>
+            android:paddingBottom="4dp" />
 
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerListFood"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
