@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             listOf(
                 FoodModel(
                     name = "hzkdl",
-                    imageUrl = "sadgl",
+                    imageUrl = "https://cdn.yjc.news/files/fa/news/1399/1/24/11699239_543.jpg",
                     location = "fghstf",
                     star = 3.5f,
                     renegeStart = 78,

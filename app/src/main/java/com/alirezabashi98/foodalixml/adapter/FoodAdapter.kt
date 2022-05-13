@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alirezabashi98.foodalixml.databinding.ItemFoodBinding
 import com.alirezabashi98.foodalixml.model.FoodModel
+import com.alirezabashi98.foodalixml.utility.glideSetImage
 
 class FoodAdapter(var data: List<FoodModel>) : RecyclerView.Adapter<FoodAdapter.ViewHolder>() {
 
@@ -14,6 +15,7 @@ class FoodAdapter(var data: List<FoodModel>) : RecyclerView.Adapter<FoodAdapter.
             item.renegeStartFood.text = food.renegeStart.toString()
             item.locationFood.text = food.location
             item.arrivingTimeFood.text = food.arrivingTime
+            item.root.context.glideSetImage(url = food.imageUrl, view = item.imageFood)
         }
     }
 
