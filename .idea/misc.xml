@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/circle_background_white.xml" value="0.1385" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.253125" />
-        <entry key="app/src/main/res/layout/item_food.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_food.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/layout_add_food.xml" value="0.2125" />
       </map>
     </option>
   </component>
