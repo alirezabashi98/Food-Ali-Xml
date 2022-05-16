@@ -6,12 +6,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alirezabashi98.foodalixml.adapter.FoodAdapter
+import com.alirezabashi98.foodalixml.adapter.onTabItem
 import com.alirezabashi98.foodalixml.databinding.ActivityMainBinding
 import com.alirezabashi98.foodalixml.databinding.LayoutAddFoodBinding
 import com.alirezabashi98.foodalixml.model.FoodModel
 import com.alirezabashi98.foodalixml.utility.getAllFood
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),onTabItem {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var myAdapter: FoodAdapter
@@ -22,9 +23,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         cast()
-        addFood()
         setAdapter()
+        addFood()
 
+    }
+
+    private fun cast() {
+        myAdapter = FoodAdapter(getAllFood().clone() as ArrayList<FoodModel>,this)
+    }
+
+    private fun setAdapter() {
+        binding.recyclerListFood.layoutManager = LinearLayoutManager(this)
+        binding.recyclerListFood.adapter = myAdapter
     }
 
     private fun addFood() {
@@ -62,13 +72,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun cast() {
-        myAdapter = FoodAdapter(getAllFood().clone() as ArrayList<FoodModel>)
+    override fun onClick(food: FoodModel) {
+        Toast.makeText(this, food.name, Toast.LENGTH_SHORT).show()
     }
 
-    private fun setAdapter() {
-        binding.recyclerListFood.layoutManager = LinearLayoutManager(this)
-        binding.recyclerListFood.adapter = myAdapter
+    override fun onLongClick(food: FoodModel) {
+        Toast.makeText(this, food.name, Toast.LENGTH_SHORT).show()
     }
-
 }
