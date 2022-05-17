@@ -9,10 +9,11 @@ import com.alirezabashi98.foodalixml.adapter.FoodAdapter
 import com.alirezabashi98.foodalixml.adapter.onTabItem
 import com.alirezabashi98.foodalixml.databinding.ActivityMainBinding
 import com.alirezabashi98.foodalixml.databinding.LayoutAddFoodBinding
+import com.alirezabashi98.foodalixml.databinding.LayoutDeleteFoodBinding
 import com.alirezabashi98.foodalixml.model.FoodModel
 import com.alirezabashi98.foodalixml.utility.getAllFood
 
-class MainActivity : AppCompatActivity(),onTabItem {
+class MainActivity : AppCompatActivity(), onTabItem {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var myAdapter: FoodAdapter
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity(),onTabItem {
     }
 
     private fun cast() {
-        myAdapter = FoodAdapter(getAllFood().clone() as ArrayList<FoodModel>,this)
+        myAdapter = FoodAdapter(getAllFood().clone() as ArrayList<FoodModel>, this)
     }
 
     private fun setAdapter() {
@@ -72,11 +73,60 @@ class MainActivity : AppCompatActivity(),onTabItem {
         }
     }
 
-    override fun onClick(food: FoodModel) {
-        Toast.makeText(this, food.name, Toast.LENGTH_SHORT).show()
+    override fun onClick(food: FoodModel, position: Int) {
+        val dialog = AlertDialog.Builder(this).create()
+        val viewDialog = LayoutAddFoodBinding.inflate(layoutInflater)
+        dialog.setView(viewDialog.root)
+        dialog.create()
+        dialog.show()
+
+        viewDialog.foodName.setText(food.name)
+        viewDialog.foodCity.setText(food.location)
+        viewDialog.foodPrice.setText(food.Price)
+
+        viewDialog.cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        viewDialog.doneAddFood.setOnClickListener {
+            if (
+                viewDialog.foodName.text!!.isNotBlank() &&
+                viewDialog.foodCity.text!!.isNotBlank() &&
+                viewDialog.foodPrice.text!!.isNotBlank() &&
+                viewDialog.foodCity.text!!.isNotBlank()
+            ) {
+                val newFood = FoodModel(
+                    name = viewDialog.foodName.text.toString(),
+                    imageUrl = food.imageUrl,
+                    location = viewDialog.foodCity.text.toString(),
+                    star = food.star,
+                    renegeStart = food.renegeStart,
+                    Price = viewDialog.foodPrice.text.toString(),
+                    arrivingTime = food.arrivingTime
+                )
+                myAdapter.upDateFood(newFood, position)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "لطفا همه مقادیر را پرکنید", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
-    override fun onLongClick(food: FoodModel) {
-        Toast.makeText(this, food.name, Toast.LENGTH_SHORT).show()
+    override fun onLongClick(food: FoodModel, position: Int) {
+        val dialog = AlertDialog.Builder(this).create()
+        val viewDialog = LayoutDeleteFoodBinding.inflate(layoutInflater)
+        dialog.setView(viewDialog.root)
+        dialog.create()
+        dialog.show()
+
+        viewDialog.deleteButton.setOnClickListener {
+            dialog.dismiss()
+            myAdapter.removeFood(food, position)
+        }
+
+        viewDialog.cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 }

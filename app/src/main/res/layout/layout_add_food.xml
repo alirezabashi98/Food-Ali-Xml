@@ -48,14 +48,32 @@
             android:hint="Food Price" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/doneAddFood"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_done"
-        android:drawableTint="@color/white"
-        android:drawablePadding="5dp"
-        android:text="done"/>
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_button"
+            android:text="Cancel"
+            android:layout_marginHorizontal="10dp"
+            android:drawableLeft="@drawable/ic_cancel"
+            android:drawableTint="@color/white"
+            android:drawablePadding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/doneAddFood"
+            android:text="Done"
+            android:drawableLeft="@drawable/ic_done"
+            android:drawableTint="@color/white"
+            android:drawablePadding="5dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </LinearLayout>
