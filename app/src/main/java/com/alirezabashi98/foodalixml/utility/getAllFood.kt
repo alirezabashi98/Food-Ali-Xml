@@ -5,7 +5,7 @@ import com.alirezabashi98.foodalixml.model.FoodModel
 fun getAllFood(): ArrayList<FoodModel> =
     arrayListOf(
         FoodModel(
-            name = "Pasta",
+            name = "pasta",
             imageUrl = "https://www.listchallenges.com/f/items/57fc372f-9ae7-44e7-b35d-68c8d5bd8df0.jpg",
             location = "tehran",
             star = 2.5f,
@@ -14,7 +14,7 @@ fun getAllFood(): ArrayList<FoodModel> =
             arrivingTime = "2h7m"
         ),
         FoodModel(
-            name = "Pizza",
+            name = "pizza",
             imageUrl = "https://www.listchallenges.com/f/items/e8bd412f-c092-4e68-8de9-c0d9710acf0d.jpg",
             location = "tehran",
             star = 1.5f,
@@ -95,7 +95,7 @@ fun getAllFood(): ArrayList<FoodModel> =
             arrivingTime = "37m"
         ),
         FoodModel(
-            name = "Chicken Tenders",
+            name = "chicken tenders",
             imageUrl = "https://www.listchallenges.com/f/items/a0edc7e8-dc74-45d0-b3c0-86859b0477dd.jpg",
             location = "tehran",
             star = 3.5f,

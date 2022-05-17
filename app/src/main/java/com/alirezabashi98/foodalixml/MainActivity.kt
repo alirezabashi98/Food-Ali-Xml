@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alirezabashi98.foodalixml.adapter.FoodAdapter
 import com.alirezabashi98.foodalixml.adapter.onTabItem
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), onTabItem {
         cast()
         setAdapter()
         addFood()
+        searchFood()
 
     }
 
@@ -70,6 +72,21 @@ class MainActivity : AppCompatActivity(), onTabItem {
                     Toast.makeText(this, "لطفا همه مقادیر را پرکنید", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun searchFood() {
+        binding.foodSearch.addTextChangedListener { txtSearch ->
+            val foodClone:ArrayList<FoodModel> =getAllFood().clone() as ArrayList<FoodModel>
+            if (txtSearch!!.isNotEmpty()) {
+                val foodFilter = foodClone.filter { food ->
+                    food.name.contains(txtSearch.toString())
+                }
+                myAdapter.upDataAllFood(foodFilter as ArrayList<FoodModel>)
+            } else {
+                myAdapter.upDataAllFood(foodClone)
+            }
+
         }
     }
 

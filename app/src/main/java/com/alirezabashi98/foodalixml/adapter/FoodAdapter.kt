@@ -55,6 +55,13 @@ class FoodAdapter(var data: ArrayList<FoodModel>, val onTab: onTabItem) :
         notifyItemRemoved(position)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun upDataAllFood(foods:ArrayList<FoodModel>){
+        data.clear()
+        data.addAll(foods)
+        notifyDataSetChanged()
+    }
+
 }
 
 interface onTabItem {
