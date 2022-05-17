@@ -43,26 +43,26 @@ class MainActivity : AppCompatActivity(), onTabItem {
     private fun addFood() {
         binding.addFood.setOnClickListener {
             val dialog = AlertDialog.Builder(this).create()
-            val layoutAddFood = LayoutAddFoodBinding.inflate(layoutInflater)
-            dialog.setView(layoutAddFood.root)
+            val viewDialog = LayoutAddFoodBinding.inflate(layoutInflater)
+            dialog.setView(viewDialog.root)
             dialog.create()
             dialog.show()
 
-            layoutAddFood.doneAddFood.setOnClickListener {
+            viewDialog.doneAddFood.setOnClickListener {
                 if (
-                    layoutAddFood.foodName.text!!.isNotBlank() &&
-                    layoutAddFood.foodCity.text!!.isNotBlank() &&
-                    layoutAddFood.foodPrice.text!!.isNotBlank() &&
-                    layoutAddFood.foodCity.text!!.isNotBlank()
+                    viewDialog.foodName.text!!.isNotBlank() &&
+                    viewDialog.foodCity.text!!.isNotBlank() &&
+                    viewDialog.foodPrice.text!!.isNotBlank() &&
+                    viewDialog.foodCity.text!!.isNotBlank()
                 ) {
                     val random = (0..getAllFood().size).random()
                     val newFood = FoodModel(
-                        name = layoutAddFood.foodName.text.toString(),
+                        name = viewDialog.foodName.text.toString(),
                         imageUrl = getAllFood()[random].imageUrl,
-                        location = layoutAddFood.foodCity.text.toString(),
+                        location = viewDialog.foodCity.text.toString(),
                         star = (0..5).random().toFloat(),
                         renegeStart = (0..200).random(),
-                        Price = layoutAddFood.foodPrice.text.toString(),
+                        Price = viewDialog.foodPrice.text.toString(),
                         arrivingTime = "${(0..5).random()}h${(1..50).random()}m"
                     )
                     myAdapter.addFood(newFood)
@@ -72,12 +72,15 @@ class MainActivity : AppCompatActivity(), onTabItem {
                     Toast.makeText(this, "لطفا همه مقادیر را پرکنید", Toast.LENGTH_SHORT).show()
                 }
             }
+            viewDialog.cancelButton.setOnClickListener {
+                dialog.dismiss()
+            }
         }
     }
 
     private fun searchFood() {
         binding.foodSearch.addTextChangedListener { txtSearch ->
-            val foodClone:ArrayList<FoodModel> =getAllFood().clone() as ArrayList<FoodModel>
+            val foodClone: ArrayList<FoodModel> = getAllFood().clone() as ArrayList<FoodModel>
             if (txtSearch!!.isNotEmpty()) {
                 val foodFilter = foodClone.filter { food ->
                     food.name.contains(txtSearch.toString())
