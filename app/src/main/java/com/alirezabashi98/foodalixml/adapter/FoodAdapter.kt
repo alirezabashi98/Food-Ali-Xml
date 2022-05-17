@@ -13,9 +13,9 @@ class FoodAdapter(var data: ArrayList<FoodModel>, val onTab: onTabItem) :
 
     class ViewHolder(private val item: ItemFoodBinding) : RecyclerView.ViewHolder(item.root) {
         @SuppressLint("SetTextI18n")
-        fun setData(food: FoodModel, onTab: onTabItem, position: Int) {
-            item.root.setOnClickListener { onTab.onClick(food, position) }
-            item.root.setOnLongClickListener { onTab.onLongClick(food, position); true }
+        fun setData(food: FoodModel, onTab: onTabItem) {
+            item.root.setOnClickListener { onTab.onClick(food, adapterPosition) }
+            item.root.setOnLongClickListener { onTab.onLongClick(food, adapterPosition); true }
             item.nameFood.text = food.name
             item.renegeStartFood.text = "${food.renegeStart} people comment"
             item.locationFood.text = food.location
@@ -36,7 +36,7 @@ class FoodAdapter(var data: ArrayList<FoodModel>, val onTab: onTabItem) :
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        holder.setData(data[position], onTab, position)
+        holder.setData(data[position], onTab)
 
     override fun getItemCount(): Int = data.size
 
