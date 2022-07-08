@@ -1,8 +1,12 @@
 package com.alirezabashi98.foodalixml.model
 
-import android.text.Editable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "table_food")
 data class FoodModel(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
     val name: String,
     val imageUrl: String,
     val location: String,
