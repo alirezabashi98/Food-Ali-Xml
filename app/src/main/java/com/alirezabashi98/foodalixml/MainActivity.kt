@@ -14,6 +14,7 @@ import com.alirezabashi98.foodalixml.database.Dao.FoodDao
 import com.alirezabashi98.foodalixml.database.FoodDatabase
 import com.alirezabashi98.foodalixml.databinding.ActivityMainBinding
 import com.alirezabashi98.foodalixml.databinding.LayoutAddFoodBinding
+import com.alirezabashi98.foodalixml.databinding.LayoutDeleteAllFoodBinding
 import com.alirezabashi98.foodalixml.databinding.LayoutDeleteFoodBinding
 import com.alirezabashi98.foodalixml.model.FoodModel
 import com.alirezabashi98.foodalixml.utility.getAllFood
@@ -30,8 +31,7 @@ class MainActivity : AppCompatActivity(), onTabItem {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         cast()
-        setAdapter()
-        addFood()
+        setRecycler()
         searchFood()
     }
 
@@ -47,9 +47,11 @@ class MainActivity : AppCompatActivity(), onTabItem {
         foodDao = FoodDatabase.getDatabase(this).foodDao()
         firstRun()
         myAdapter = FoodAdapter(ArrayList(foodDao.getAllFood()), this)
+        addFood()
+        deleteAllFood()
     }
 
-    private fun setAdapter() {
+    private fun setRecycler() {
         binding.recyclerListFood.layoutManager = LinearLayoutManager(this)
         binding.recyclerListFood.adapter = myAdapter
     }
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity(), onTabItem {
                         Price = viewDialog.foodPrice.text.toString(),
                         arrivingTime = "${(0..5).random()}h${(1..50).random()}m"
                     )
-                    myAdapter.addFood(newFood,foodDao.getAllFood().size)
+                    myAdapter.addFood(newFood, foodDao.getAllFood().size)
                     binding.recyclerListFood.scrollToPosition(foodDao.getAllFood().size)
                     foodDao.insertFood(newFood)
                     dialog.dismiss()
@@ -90,6 +92,28 @@ class MainActivity : AppCompatActivity(), onTabItem {
             viewDialog.cancelButton.setOnClickListener {
                 dialog.dismiss()
             }
+        }
+    }
+
+    private fun deleteAllFood() {
+        binding.deleteAllFood.setOnClickListener {
+
+            val dialog = AlertDialog.Builder(this).create()
+            val viewDialog = LayoutDeleteAllFoodBinding.inflate(layoutInflater)
+            dialog.setView(viewDialog.root)
+            dialog.create()
+            dialog.show()
+
+            viewDialog.cancelButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            viewDialog.deleteButton.setOnClickListener {
+                foodDao.deleteAllFood()
+                myAdapter.upDataAllFood(ArrayList(foodDao.getAllFood()))
+                dialog.dismiss()
+            }
+
         }
     }
 

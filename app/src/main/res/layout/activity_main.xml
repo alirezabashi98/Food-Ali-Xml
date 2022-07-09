@@ -30,13 +30,29 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/addFood"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_baseline_add_circle_24"
-                app:tint="@color/white" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/deleteAllFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_delete_outline_24"
+                    app:tint="@color/white"
+                    android:layout_marginHorizontal="3dp"/>
+
+                <ImageView
+                    android:id="@+id/addFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_add_circle_24"
+                    app:tint="@color/white"
+                    android:layout_marginHorizontal="3dp" />
+
+            </LinearLayout>
         </FrameLayout>
 
         <EditText
@@ -46,15 +62,15 @@
             android:layout_marginTop="6dp"
             android:background="@drawable/circle_background_white"
             android:drawableLeft="@drawable/ic_baseline_search_24"
-            android:drawableTint="@color/gray"
-            android:textColorHint="@color/gray2"
-            android:textColor="@color/black"
             android:drawablePadding="8dp"
+            android:drawableTint="@color/gray"
             android:hint="Find food..."
             android:maxLines="1"
             android:paddingHorizontal="8dp"
             android:paddingTop="4dp"
-            android:paddingBottom="4dp" />
+            android:paddingBottom="4dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray2" />
 
     </LinearLayout>
 
