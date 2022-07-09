@@ -40,9 +40,9 @@ class FoodAdapter(var data: ArrayList<FoodModel>, val onTab: onTabItem) :
 
     override fun getItemCount(): Int = data.size
 
-    fun addFood(food: FoodModel) {
-        data.add(0, food)
-        notifyItemChanged(0)
+    fun addFood(food: FoodModel,position: Int) {
+        data.add(position, food)
+        notifyItemChanged(position)
     }
 
     fun upDateFood(food: FoodModel, position: Int) {

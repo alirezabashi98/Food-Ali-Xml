@@ -1,6 +1,8 @@
 package com.alirezabashi98.foodalixml
 
 import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +10,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alirezabashi98.foodalixml.adapter.FoodAdapter
 import com.alirezabashi98.foodalixml.adapter.onTabItem
+import com.alirezabashi98.foodalixml.database.Dao.FoodDao
+import com.alirezabashi98.foodalixml.database.FoodDatabase
 import com.alirezabashi98.foodalixml.databinding.ActivityMainBinding
 import com.alirezabashi98.foodalixml.databinding.LayoutAddFoodBinding
 import com.alirezabashi98.foodalixml.databinding.LayoutDeleteFoodBinding
@@ -18,21 +22,31 @@ class MainActivity : AppCompatActivity(), onTabItem {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var myAdapter: FoodAdapter
+    private lateinit var foodDao: FoodDao
+    private lateinit var shared: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         cast()
         setAdapter()
         addFood()
         searchFood()
+    }
 
+    private fun firstRun() {
+        if (shared.getBoolean("first_run", true)) {
+            foodDao.insertListFood(getAllFood())
+            shared.edit().putBoolean("first_run", false).apply()
+        }
     }
 
     private fun cast() {
-        myAdapter = FoodAdapter(getAllFood().clone() as ArrayList<FoodModel>, this)
+        shared = getSharedPreferences("foodAli", Context.MODE_PRIVATE)
+        foodDao = FoodDatabase.getDatabase(this).foodDao()
+        firstRun()
+        myAdapter = FoodAdapter(ArrayList(foodDao.getAllFood()), this)
     }
 
     private fun setAdapter() {
@@ -65,8 +79,9 @@ class MainActivity : AppCompatActivity(), onTabItem {
                         Price = viewDialog.foodPrice.text.toString(),
                         arrivingTime = "${(0..5).random()}h${(1..50).random()}m"
                     )
-                    myAdapter.addFood(newFood)
-                    binding.recyclerListFood.scrollToPosition(0)
+                    myAdapter.addFood(newFood,foodDao.getAllFood().size)
+                    binding.recyclerListFood.scrollToPosition(foodDao.getAllFood().size)
+                    foodDao.insertFood(newFood)
                     dialog.dismiss()
                 } else {
                     Toast.makeText(this, "لطفا همه مقادیر را پرکنید", Toast.LENGTH_SHORT).show()
@@ -80,14 +95,10 @@ class MainActivity : AppCompatActivity(), onTabItem {
 
     private fun searchFood() {
         binding.foodSearch.addTextChangedListener { txtSearch ->
-            val foodClone: ArrayList<FoodModel> = getAllFood().clone() as ArrayList<FoodModel>
             if (txtSearch!!.isNotEmpty()) {
-                val foodFilter = foodClone.filter { food ->
-                    food.name.contains(txtSearch.toString())
-                }
-                myAdapter.upDataAllFood(foodFilter as ArrayList<FoodModel>)
+                myAdapter.upDataAllFood(foodDao.searchFood(text = txtSearch.toString()) as ArrayList<FoodModel>)
             } else {
-                myAdapter.upDataAllFood(foodClone)
+                myAdapter.upDataAllFood(ArrayList(foodDao.getAllFood()))
             }
 
         }
@@ -116,6 +127,7 @@ class MainActivity : AppCompatActivity(), onTabItem {
                 viewDialog.foodCity.text!!.isNotBlank()
             ) {
                 val newFood = FoodModel(
+                    id = food.id,
                     name = viewDialog.foodName.text.toString(),
                     imageUrl = food.imageUrl,
                     location = viewDialog.foodCity.text.toString(),
@@ -124,6 +136,7 @@ class MainActivity : AppCompatActivity(), onTabItem {
                     Price = viewDialog.foodPrice.text.toString(),
                     arrivingTime = food.arrivingTime
                 )
+                foodDao.updateFood(newFood)
                 myAdapter.upDateFood(newFood, position)
                 dialog.dismiss()
             } else {
@@ -142,6 +155,7 @@ class MainActivity : AppCompatActivity(), onTabItem {
 
         viewDialog.deleteButton.setOnClickListener {
             dialog.dismiss()
+            foodDao.deleteFood(food)
             myAdapter.removeFood(food, position)
         }
 
